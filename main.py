@@ -12,7 +12,11 @@
 import tensorflow as tf
 from tensorflow import keras
 import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 
 (X_train,y_train),(X_test,y_test) = keras.datasets.mnist.load_data()
 
@@ -28,10 +32,14 @@ X_test = X_test/255
 X_train,X_val,y_train,y_val = train_test_split(X_train,y_train,test_size=0.2,random_state=42)
 
 
-print(f"Train shape : {X_train.shape}")
-print(f"Test shape : {X_test.shape}")
-print(type(X_train))
+# Logistic regression
+logistic_model = LogisticRegression()
+logistic_model.fit(X_train,y_train)
 
+y_pred = logistic_model.predict(X_val)
+accuracy = accuracy_score(y_pred,y_val)
+
+print(f"Accuracy Score : {accuracy}")
 
 # Show the image
 plt.imshow(X_train[0].reshape(28,28), cmap="gray")
