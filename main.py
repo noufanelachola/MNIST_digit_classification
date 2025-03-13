@@ -14,12 +14,12 @@ from tensorflow import keras
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 from sklearn.linear_model import LogisticRegression
-
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 
-from sklearn.metrics import accuracy_score
 
 (X_train,y_train),(X_test,y_test) = keras.datasets.mnist.load_data()
 
@@ -36,13 +36,13 @@ X_train,X_val,y_train,y_val = train_test_split(X_train,y_train,test_size=0.2,ran
 
 
 # Logistic regression
-# logistic_model = LogisticRegression(solver='lbfgs', max_iter=100)
-# logistic_model.fit(X_train,y_train)
+logistic_model = LogisticRegression(solver='lbfgs', max_iter=100)
+logistic_model.fit(X_train,y_train)
 
-# y_pred_log = logistic_model.predict(X_val)
-# accuracy_log = accuracy_score(y_pred_log,y_val)
+y_pred_log = logistic_model.predict(X_val)
+accuracy_log = accuracy_score(y_pred_log,y_val)
 
-# print(f"Accuracy Score logistic regression : {accuracy_log}")
+print(f"Accuracy Score logistic regression : {accuracy_log}")
 
 # SVM
 svm_model = SVC(kernel='rbf')
@@ -52,6 +52,17 @@ y_pred_svm = svm_model.predict(X_val)
 
 accuracy_svm = accuracy_score(y_val,y_pred_svm)
 print(f"Accuracy Score SVM : {accuracy_svm}")
+
+# Random Forest
+rf_model = RandomForestClassifier(n_estimators=100,random_state=42)
+rf_model.fit(X_train,y_train)
+
+y_pred_rf = rf_model.predict(X_val)
+
+accuracy_rf = accuracy_score(y_val,y_pred_rf)
+print(f"Accuracy Score random forest : {accuracy_rf}")
+
+
 
 # Show the image
 # plt.imshow(X_train[0].reshape(28,28), cmap="gray")
